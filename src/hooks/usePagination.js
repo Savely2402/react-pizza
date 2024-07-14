@@ -1,8 +1,11 @@
 import React from 'react'
 
 import { getPageCount } from './../utils/page.js'
+import { useSelector } from 'react-redux'
 
-export const usePagination = (items, limit, activePage) => {
+export const usePagination = (items, limit) => {
+    const activePage = useSelector((state) => state.pagination.activePage)
+
     const activePageItems = React.useMemo(
         () =>
             items.filter(

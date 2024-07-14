@@ -3,8 +3,12 @@ import React from 'react'
 import styles from './Pagination.module.scss'
 import { usePagination } from '../../hooks/usePagination'
 
-export const Pagination = ({ items, limit, activePage, setActivePage }) => {
-    const { pagesArray } = usePagination(items, limit, activePage)
+import { setActivePage } from '../../redux/slices/paginationSlice'
+import { useDispatch } from 'react-redux'
+
+export const Pagination = ({ items, limit }) => {
+    const dispatch = useDispatch()
+    const { pagesArray } = usePagination(items, limit)
 
     return (
         <ul className={styles.root}>
@@ -16,7 +20,7 @@ export const Pagination = ({ items, limit, activePage, setActivePage }) => {
                             ? `${styles.page} ${styles.page__active} `
                             : styles.page
                     }
-                    onClick={() => setActivePage(pageNumber)}
+                    onClick={() => dispatch(setActivePage(pageNumber))}
                     key={pageNumber}
                 >
                     {pageNumber}

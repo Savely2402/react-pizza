@@ -19,6 +19,7 @@ export const useFetchItems = () => {
         url.searchParams.append('order', order)
         if (searchValue) {
             url.searchParams.append('title', searchValue)
+            // dispatch(setActivePage(1))
         }
 
         if (categoryId > 0) {

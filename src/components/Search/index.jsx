@@ -15,6 +15,7 @@ const Search = () => {
     }
 
     const debouncedSearchInput = React.useMemo(() => {
+        console.log('rerender')
         return debounce(onChangeSearchInput, 350)
     }, [])
 

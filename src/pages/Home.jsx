@@ -10,11 +10,13 @@ import { usePagination } from '../hooks/usePagination'
 import { useFetchItems } from '../hooks/useFetchItems'
 import { useModal } from '../hooks/useModal'
 import { categories } from '../constants/categories'
+import { setActivePage } from '../redux/slices/paginationSlice'
+import { useDispatch } from 'react-redux'
 
 export const Home = () => {
-    const [activePage, setActivePage] = React.useState(1)
+    const dispatch = useDispatch()
 
-    const [items, isLoading, _] = useFetchItems()
+    const [items, isLoading] = useFetchItems()
 
     const [openModal, setOpenModal] = useModal()
 
@@ -24,11 +26,11 @@ export const Home = () => {
     const limit = 4
 
     const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
-    const { activePageItems } = usePagination(pizzas, limit, activePage)
+    const { activePageItems } = usePagination(pizzas, limit)
 
     React.useEffect(() => {
-        setActivePage(1)
-    }, [items])
+        dispatch(setActivePage(1))
+    }, [dispatch, items.length])
 
     return (
         <div className="container">
@@ -46,12 +48,7 @@ export const Home = () => {
                     <h1>Нет товаров</h1>
                 )}
             </div>
-            <Pagination
-                items={items}
-                limit={limit}
-                activePage={activePage}
-                setActivePage={setActivePage}
-            />
+            <Pagination items={items} limit={limit} />
         </div>
     )
 }
