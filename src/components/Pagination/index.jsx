@@ -3,7 +3,7 @@ import React from 'react'
 import styles from './Pagination.module.scss'
 import { usePagination } from '../../hooks/usePagination'
 
-import { setActivePage } from '../../redux/slices/paginationSlice'
+import { setActivePage } from '../../redux/slices/filterSlice'
 import { useDispatch } from 'react-redux'
 
 export const Pagination = ({ items, limit }) => {

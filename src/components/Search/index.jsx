@@ -10,14 +10,12 @@ const Search = () => {
 
     const [tempValue, setTempValue] = React.useState('')
 
-    function onChangeSearchInput(e) {
-        dispatch(setSearchValue(e.target.value))
-    }
+    const onChangeSearchInput = (e) => dispatch(setSearchValue(e.target.value))
 
-    const debouncedSearchInput = React.useMemo(() => {
-        console.log('rerender')
-        return debounce(onChangeSearchInput, 350)
-    }, [])
+    const debouncedSearchInput = React.useCallback(
+        debounce(onChangeSearchInput, 350),
+        []
+    )
 
     return (
         <div className={styles.root}>

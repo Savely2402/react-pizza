@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import { addItem } from '../../redux/slices/cartSlice'
+import { useDispatch } from 'react-redux'
+import { useDuplicatesCount } from '../../hooks/useDuplicatesCount'
 
 export const PizzaBlock = ({
+    id,
     title,
     price,
     imageUrl,
@@ -8,10 +12,27 @@ export const PizzaBlock = ({
     types,
     rating,
 }) => {
+    const typeNames = ['тонкое', 'традиционное']
+    const dispatch = useDispatch()
+
     const [activeType, setActiveType] = React.useState(0)
     const [activeSize, setActiveSize] = useState(0)
 
-    const typeNames = ['тонкое', 'традиционное']
+    const duplicatesCount = useDuplicatesCount(id)
+
+    const itemToHandle = {
+        id,
+        title,
+        imageUrl,
+        type: typeNames[activeType],
+        size: sizes[activeSize],
+        price,
+    }
+
+    const onClickAddItem = () => {
+        dispatch(addItem(itemToHandle))
+    }
+
     return (
         <div className="pizza-block">
             <img
@@ -62,7 +83,10 @@ export const PizzaBlock = ({
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {price} ₽</div>
-                <button className="button button--outline button--add">
+                <button
+                    className="button button--outline button--add"
+                    onClick={onClickAddItem}
+                >
                     <svg
                         width="12"
                         height="12"
@@ -76,7 +100,7 @@ export const PizzaBlock = ({
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>{0}</i>
+                    <i>{duplicatesCount}</i>
                 </button>
             </div>
         </div>

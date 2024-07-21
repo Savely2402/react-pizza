@@ -10,13 +10,19 @@ import { usePagination } from '../hooks/usePagination'
 import { useFetchItems } from '../hooks/useFetchItems'
 import { useModal } from '../hooks/useModal'
 import { categories } from '../constants/categories'
-import { setActivePage } from '../redux/slices/paginationSlice'
+import { setActivePage } from '../redux/slices/filterSlice'
 import { useDispatch } from 'react-redux'
+import { useParseQueryParams } from '../hooks/useQueryParams'
 
 export const Home = () => {
+    const isSearch = React.useRef(false)
+    const isMounted = React.useRef(false)
+
     const dispatch = useDispatch()
 
-    const [items, isLoading] = useFetchItems()
+    useParseQueryParams(isSearch, isMounted)
+
+    const [items, isLoading] = useFetchItems(isSearch)
 
     const [openModal, setOpenModal] = useModal()
 

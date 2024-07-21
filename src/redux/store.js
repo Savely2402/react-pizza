@@ -1,15 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import filterReducer from './slices/filterSlice'
-import sortReducer from './slices/sortSlice'
 import itemsReducer from './slices/itemsSlice'
-import paginationReducer from './slices/paginationSlice'
+import cartReducer from './slices/cartSlice'
 
 export default configureStore({
     reducer: {
         filter: filterReducer,
-        sort: sortReducer,
         items: itemsReducer,
-        pagination: paginationReducer,
+        cart: cartReducer,
     },
 })

@@ -17,7 +17,7 @@ export const itemsSlice = createSlice({
             state.isLoading = action.payload
         },
         setError: (state, action) => {
-            state.status = action.payload
+            state.error = action.payload
         },
     },
 })

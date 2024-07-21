@@ -1,49 +1,52 @@
 import React from 'react'
+import axios from 'axios'
 
 import { useDispatch, useSelector } from 'react-redux'
-
 import { setItems, setIsLoading, setError } from '../redux/slices/itemsSlice'
 
-export const useFetchItems = () => {
+export const useFetchItems = (isSearch) => {
     const { items, isLoading, error } = useSelector((state) => state.items)
-    const { sort, order } = useSelector((state) => state.sort)
-    const { categoryId, searchValue } = useSelector((state) => state.filter)
+    const { sort, categoryId, searchValue } = useSelector(
+        (state) => state.filter
+    )
 
     const dispatch = useDispatch()
 
     React.useEffect(() => {
-        dispatch(setIsLoading(true))
-        const url = new URL('https://6681539604acc3545a065f15.mockapi.io/items')
+        if (!isSearch.current) {
+            dispatch(setIsLoading(true))
+            const url = new URL(
+                'https://6681539604acc3545a065f15.mockapi.io/items'
+            )
 
-        url.searchParams.append('sortBy', sort.sortField)
-        url.searchParams.append('order', order)
-        if (searchValue) {
-            url.searchParams.append('title', searchValue)
-            // dispatch(setActivePage(1))
-        }
+            url.searchParams.append('sortBy', sort.sortField)
+            url.searchParams.append('order', sort.sortOrder)
+            if (searchValue) {
+                url.searchParams.append('title', searchValue)
+            }
 
-        if (categoryId > 0) {
-            url.searchParams.append('category', categoryId)
-        }
+            if (categoryId > 0) {
+                url.searchParams.append('category', categoryId)
+            }
 
-        fetch(url)
-            .then((res) => {
-                return res.json()
-            })
-            .then((arr) => {
-                if (Array.isArray(arr)) {
-                    dispatch(setItems(arr))
-                } else {
+            axios
+                .get(url)
+                .then((res) => {
+                    const arr = res.data
+                    dispatch(setItems(Array.isArray(arr) ? arr : []))
+                })
+                .catch((err) => {
+                    dispatch(setError(err.message))
                     dispatch(setItems([]))
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                dispatch(setError(err))
-                dispatch(setItems([]))
-            })
-            .finally(() => dispatch(setIsLoading(false)))
-    }, [dispatch, sort.sortField, order, categoryId, searchValue])
+                })
+                .finally(() => {
+                    dispatch(setIsLoading(false))
+                })
+        }
+
+        isSearch.current = false
+        // eslint-disable-next-line
+    }, [sort.sortField, sort.sortOrder, categoryId, searchValue])
 
     return [items, isLoading, error]
 }
