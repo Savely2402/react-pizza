@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilters } from '../redux/slices/filterSlice'
 import qs from 'qs'
@@ -10,6 +10,8 @@ export const useQueryParams = (isMounted) => {
         (state) => state.filter
     )
 
+    const location = useLocation()
+    console.log(location)
     const navigate = useNavigate()
 
     return React.useEffect(() => {

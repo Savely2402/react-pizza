@@ -1,8 +1,7 @@
 import React from 'react'
-import axios from 'axios'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { setItems, setIsLoading, setError } from '../redux/slices/itemsSlice'
+import { fetchItems } from '../redux/slices/itemsSlice'
 
 export const useFetchItems = (isSearch) => {
     const { items, isLoading, error } = useSelector((state) => state.items)
@@ -13,38 +12,16 @@ export const useFetchItems = (isSearch) => {
     const dispatch = useDispatch()
 
     React.useEffect(() => {
-        if (!isSearch.current) {
-            dispatch(setIsLoading(true))
-            const url = new URL(
-                'https://6681539604acc3545a065f15.mockapi.io/items'
-            )
-
-            url.searchParams.append('sortBy', sort.sortField)
-            url.searchParams.append('order', sort.sortOrder)
-            if (searchValue) {
-                url.searchParams.append('title', searchValue)
+        const fetchData = async () => {
+            if (!isSearch.current) {
+                dispatch(fetchItems({ sort, categoryId, searchValue }))
             }
 
-            if (categoryId > 0) {
-                url.searchParams.append('category', categoryId)
-            }
-
-            axios
-                .get(url)
-                .then((res) => {
-                    const arr = res.data
-                    dispatch(setItems(Array.isArray(arr) ? arr : []))
-                })
-                .catch((err) => {
-                    dispatch(setError(err.message))
-                    dispatch(setItems([]))
-                })
-                .finally(() => {
-                    dispatch(setIsLoading(false))
-                })
+            isSearch.current = false
         }
 
-        isSearch.current = false
+        fetchData()
+
         // eslint-disable-next-line
     }, [sort.sortField, sort.sortOrder, categoryId, searchValue])
 

@@ -22,7 +22,7 @@ export const Home = () => {
 
     useParseQueryParams(isSearch, isMounted)
 
-    const [items, isLoading] = useFetchItems(isSearch)
+    const [items, isLoading, error] = useFetchItems(isSearch)
 
     const [openModal, setOpenModal] = useModal()
 
@@ -40,21 +40,35 @@ export const Home = () => {
 
     return (
         <div className="container">
-            <div className="content__top">
-                <Categories categories={categories} />
-                <Sort openModal={openModal} setOpenModal={setOpenModal} />
-            </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-                {isLoading ? (
-                    skeletons
-                ) : items.length !== 0 ? (
-                    activePageItems
-                ) : (
-                    <h1>Нет товаров</h1>
-                )}
-            </div>
-            <Pagination items={items} limit={limit} />
+            {error ? (
+                <div className="content__error-info">
+                    <h1> Произошла ошибка :(</h1>
+                    <p>
+                        Не удалось загрузить пиццы...Повторите попытку позднее.
+                    </p>
+                </div>
+            ) : (
+                <>
+                    <div className="content__top">
+                        <Categories categories={categories} />
+                        <Sort
+                            openModal={openModal}
+                            setOpenModal={setOpenModal}
+                        />
+                    </div>
+                    <h2 className="content__title">Все пиццы</h2>
+                    <div className="content__items">
+                        {isLoading ? (
+                            skeletons
+                        ) : items.length !== 0 ? (
+                            activePageItems
+                        ) : (
+                            <h1>Нет товаров</h1>
+                        )}
+                    </div>
+                    <Pagination items={items} limit={limit} />
+                </>
+            )}
         </div>
     )
 }
