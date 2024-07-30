@@ -1,16 +1,14 @@
 import React from 'react'
-import { CartItem } from '../components/CartItem'
-import { useSelector } from 'react-redux'
-import { NotFoundCartBlock } from '../components/NotFoundCartBlock'
-import { CartBottom } from '../components/CartBottom'
-import { CartHeader } from '../components/CartHeader'
+import { CartItem } from '../components/CartItem/index.tsx'
+import { NotFoundCartBlock } from '../components/NotFoundCartBlock.tsx'
+import { CartBottom } from '../components/CartBottom.tsx'
+import { CartHeader } from '../components/CartHeader.tsx'
+import { useAppSelector } from '../hooks/hooks.ts'
 
-export const Cart = () => {
-    const selectedItems = useSelector((state) => state.cart.selectedItems)
-    const totalPrice = useSelector((state) => state.cart.totalPrice)
-    const totalCount = useSelector((state) => state.cart.totalCount)
-
-    console.log(selectedItems)
+export const Cart: React.FC = () => {
+    const selectedItems = useAppSelector((state) => state.cart.selectedItems)
+    const totalPrice = useAppSelector((state) => state.cart.totalPrice)
+    const totalCount = useAppSelector((state) => state.cart.totalCount)
 
     return (
         <div className="container container--cart">

@@ -1,9 +1,9 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { clearCart } from '../redux/slices/cartSlice'
+import { clearCart } from '../redux/slices/cartSlice.ts'
+import { useAppDispatch } from '../hooks/hooks.ts'
 
-export const CartHeader = () => {
-    const dispatch = useDispatch()
+export const CartHeader: React.FC = () => {
+    const dispatch = useAppDispatch()
 
     const onClickClearCart = () => {
         dispatch(clearCart())

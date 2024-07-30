@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import store from './redux/store'
+import { store } from './redux/store.ts'
 
 import './index.css'
-import App from './App'
-import { Home } from './pages/Home'
-import { NotFound } from './pages/NotFound'
-import { Cart } from './pages/Cart'
+import App from './App.tsx'
+import { Home } from './pages/Home.tsx'
+import { NotFound } from './pages/NotFound.tsx'
+import { Cart } from './pages/Cart.tsx'
 
 const router = createBrowserRouter([
     {
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     },
 ])
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+const root = ReactDOM.createRoot(document.getElementById('root')!)
 root.render(
     <Provider store={store}>
         <RouterProvider router={router} />

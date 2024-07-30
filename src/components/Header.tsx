@@ -1,12 +1,12 @@
 import React from 'react'
 import logoSvg from '../assets/img/pizza-logo.svg'
 import { Link } from 'react-router-dom'
-import Search from './Search'
-import { useSelector } from 'react-redux'
+import Search from './Search/index.tsx'
+import { useAppSelector } from '../hooks/hooks.ts'
 
-export const Header = () => {
-    const totalPrice = useSelector((state) => state.cart.totalPrice)
-    const totalCount = useSelector((state) => state.cart.totalCount)
+export const Header: React.FC = () => {
+    const totalPrice = useAppSelector((state) => state.cart.totalPrice)
+    const totalCount = useAppSelector((state) => state.cart.totalCount)
 
     return (
         <div className="header">

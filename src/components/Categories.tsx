@@ -1,13 +1,17 @@
 import React from 'react'
 
-import { setCategoryId } from '../redux/slices/filterSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { setCategoryId } from '../redux/slices/filterSlice.ts'
+import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts'
 
-export const Categories = ({ categories }) => {
-    const categoryId = useSelector((state) => state.filter.categoryId)
-    const dispatch = useDispatch()
+type CategoriesProps = {
+    categories: string[]
+}
 
-    const onClick = (index) => {
+export const Categories: React.FC<CategoriesProps> = ({ categories }) => {
+    const categoryId = useAppSelector((state) => state.filter.categoryId)
+    const dispatch = useAppDispatch()
+
+    const onClick = (index: number) => {
         dispatch(setCategoryId(index))
     }
 

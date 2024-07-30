@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { addItem } from '../../redux/slices/cartSlice'
-import { useDispatch } from 'react-redux'
-import { useDuplicatesCount } from '../../hooks/useDuplicatesCount'
+import { addItem } from '../../redux/slices/cartSlice.ts'
+import { useDuplicatesCount } from '../../hooks/useDuplicatesCount.ts'
+import { useAppDispatch } from '../../hooks/hooks.ts'
+import { ItemType } from '../../redux/slices/itemsSlice.ts'
 
-export const PizzaBlock = ({
+export const PizzaBlock: React.FC<ItemType> = ({
     id,
     title,
     price,
@@ -12,11 +13,11 @@ export const PizzaBlock = ({
     types,
     rating,
 }) => {
-    const typeNames = ['тонкое', 'традиционное']
-    const dispatch = useDispatch()
+    const typeNames: string[] = ['тонкое', 'традиционное']
+    const dispatch = useAppDispatch()
 
-    const [activeType, setActiveType] = React.useState(0)
-    const [activeSize, setActiveSize] = useState(0)
+    const [activeType, setActiveType] = React.useState<number>(0)
+    const [activeSize, setActiveSize] = useState<number>(0)
 
     const duplicatesCount = useDuplicatesCount(id)
 

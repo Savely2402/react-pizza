@@ -1,16 +1,17 @@
 import React from 'react'
 
 import styles from './Search.module.scss'
-import { debounce } from '../../utils/debounce'
-import { setSearchValue } from '../../redux/slices/filterSlice'
-import { useDispatch } from 'react-redux'
+import { debounce } from '../../utils/debounce.ts'
+import { setSearchValue } from '../../redux/slices/filterSlice.ts'
+import { useAppDispatch } from '../../hooks/hooks.ts'
 
-const Search = () => {
-    const dispatch = useDispatch()
+const Search: React.FC = () => {
+    const dispatch = useAppDispatch()
 
-    const [tempValue, setTempValue] = React.useState('')
+    const [tempValue, setTempValue] = React.useState<string>('')
 
-    const onChangeSearchInput = (e) => dispatch(setSearchValue(e.target.value))
+    const onChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) =>
+        dispatch(setSearchValue(e.target.value))
 
     const debouncedSearchInput = React.useCallback(
         debounce(onChangeSearchInput, 350),

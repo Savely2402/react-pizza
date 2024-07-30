@@ -1,30 +1,26 @@
 import React from 'react'
 
-import Categories from '../components/Categories'
-import Sort from '../components/Sort'
-import Skeleton from '../components/PizzaBlock/Skeleton'
-import PizzaBlock from '../components/PizzaBlock'
+import Categories from '../components/Categories.tsx'
+import Sort from '../components/Sort.tsx'
+import Skeleton from '../components/PizzaBlock/Skeleton.tsx'
+import PizzaBlock from '../components/PizzaBlock/index.tsx'
 
-import { Pagination } from '../components/Pagination'
-import { usePagination } from '../hooks/usePagination'
-import { useFetchItems } from '../hooks/useFetchItems'
-import { useModal } from '../hooks/useModal'
-import { categories } from '../constants/categories'
-import { setActivePage } from '../redux/slices/filterSlice'
+import { Pagination } from '../components/Pagination/index.tsx'
+import { usePagination } from '../hooks/usePagination.ts'
+import { useFetchItems } from '../hooks/useFetchItems.ts'
+import { categories } from '../constants/categories.ts'
+import { setActivePage } from '../redux/slices/filterSlice.ts'
 import { useDispatch } from 'react-redux'
-import { useParseQueryParams } from '../hooks/useQueryParams'
+import { useParseQueryParams } from '../hooks/useQueryParams.ts'
 
 export const Home = () => {
-    const isSearch = React.useRef(false)
-    const isMounted = React.useRef(false)
+    const isSearch = React.useRef<boolean>(false)
+    const isMounted = React.useRef<boolean>(false)
 
     const dispatch = useDispatch()
 
     useParseQueryParams(isSearch, isMounted)
-
     const [items, isLoading, error] = useFetchItems(isSearch)
-
-    const [openModal, setOpenModal] = useModal()
 
     const skeletons = [...new Array(6)].map((_, index) => (
         <Skeleton key={index} />
@@ -51,10 +47,7 @@ export const Home = () => {
                 <>
                     <div className="content__top">
                         <Categories categories={categories} />
-                        <Sort
-                            openModal={openModal}
-                            setOpenModal={setOpenModal}
-                        />
+                        <Sort />
                     </div>
                     <h2 className="content__title">Все пиццы</h2>
                     <div className="content__items">
@@ -66,7 +59,7 @@ export const Home = () => {
                             <h1>Нет товаров</h1>
                         )}
                     </div>
-                    <Pagination items={items} limit={limit} />
+                    <Pagination items={pizzas} limit={limit} />
                 </>
             )}
         </div>

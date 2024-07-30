@@ -1,7 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const CartBottom = ({ totalCount, totalPrice }) => {
+interface CartBottomProps {
+    totalCount: number
+    totalPrice: number
+}
+
+export const CartBottom: React.FC<CartBottomProps> = ({
+    totalCount,
+    totalPrice,
+}) => {
     return (
         <div className="cart__bottom">
             <div className="cart__bottom-details">

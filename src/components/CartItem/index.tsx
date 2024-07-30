@@ -4,9 +4,19 @@ import {
     addItem,
     removeAllItemsOfType,
     removeOneItem,
-} from '../../redux/slices/cartSlice'
+} from '../../redux/slices/cartSlice.ts'
 
-export const CartItem = ({
+interface CartItemProps {
+    id: number
+    title: string
+    price: number
+    imageUrl: string
+    size: number
+    type: string
+    quantity?: number
+}
+
+export const CartItem: React.FC<CartItemProps> = ({
     id,
     title,
     price,
@@ -17,7 +27,7 @@ export const CartItem = ({
 }) => {
     const dispatch = useDispatch()
 
-    const itemToHandle = {
+    const itemToHandle: CartItemProps = {
         id,
         title,
         price,

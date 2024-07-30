@@ -1,9 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+
+export interface FetchItemsParams {
+    sort: {
+        sortField: string
+        sortOrder: string
+    }
+    searchValue: string
+    categoryId: number
+}
 
 export const fetchItems = createAsyncThunk(
     'items/fetchItems',
-    async (params, thunkAPI) => {
+    async (params: FetchItemsParams, thunkAPI) => {
         console.log(thunkAPI)
         const { sort, searchValue, categoryId } = params
 
@@ -16,25 +25,42 @@ export const fetchItems = createAsyncThunk(
         }
 
         if (categoryId > 0) {
-            url.searchParams.append('category', categoryId)
+            url.searchParams.append('category', String(categoryId))
         }
-        const { data } = await axios.get(url)
+        const { data } = await axios.get(String(url))
 
         return data
     }
 )
 
-const initialState = {
+export interface ItemType {
+    id: number
+    imageUrl: string
+    title: string
+    types: number[]
+    sizes: number[]
+    price: number
+    category: number
+    rating: number
+}
+
+interface ItemsState {
+    items: ItemType[]
+    isLoading: boolean
+    error: string
+}
+
+const initialState: ItemsState = {
     items: [],
     isLoading: true,
-    error: null,
+    error: '',
 }
 
 export const itemsSlice = createSlice({
     name: 'items',
     initialState,
     reducers: {
-        setItems: (state, action) => {
+        setItems: (state, action: PayloadAction<ItemType[]>) => {
             state.items = action.payload
         },
     },
@@ -43,10 +69,13 @@ export const itemsSlice = createSlice({
             state.isLoading = true
             state.items = []
         })
-        builder.addCase(fetchItems.fulfilled, (state, action) => {
-            state.items = action.payload
-            state.isLoading = false
-        })
+        builder.addCase(
+            fetchItems.fulfilled,
+            (state, action: PayloadAction<ItemType[]>) => {
+                state.items = action.payload
+                state.isLoading = false
+            }
+        )
         builder.addCase(fetchItems.rejected, (state) => {
             state.error = 'Error: '
             state.items = []

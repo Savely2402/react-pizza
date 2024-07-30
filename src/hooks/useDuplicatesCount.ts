@@ -1,10 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from './hooks.ts'
 
-export const useDuplicatesCount = (id) => {
-    const selectedItems = useSelector((state) => state.cart.selectedItems)
+export const useDuplicatesCount: (id: number) => number = (id) => {
+    const selectedItems = useAppSelector((state) => state.cart.selectedItems)
 
-    const duplicatesCount = React.useMemo(() => {
+    const duplicatesCount = React.useMemo<number>(() => {
         return (
             selectedItems.length &&
             selectedItems

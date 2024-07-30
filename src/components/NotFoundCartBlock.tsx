@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const NotFoundCartBlock = () => {
+export const NotFoundCartBlock: React.FC = () => {
     return (
         <div>
             <h2>Корзина пустая :(</h2>

@@ -1,7 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { isDeepEqual } from '../../utils/deepEqual'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { isDeepEqual } from '../../utils/deepEqual.ts'
 
-const initialState = {
+interface CartItemType {
+    item: {
+        id: number
+        title: string
+        price: number
+        imageUrl: string
+        size: number
+        type: string
+    }
+    quantity: number
+}
+
+interface CartState {
+    selectedItems: CartItemType[]
+    totalPrice: number
+    totalCount: number
+}
+
+const initialState: CartState = {
     selectedItems: [],
     totalPrice: 0,
     totalCount: 0,
@@ -11,7 +29,7 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addItem(state, action) {
+        addItem(state, action: PayloadAction<CartItemType['item']>) {
             const foundObjIndex = state.selectedItems.findIndex((obj) =>
                 isDeepEqual(obj.item, action.payload)
             )
@@ -26,7 +44,7 @@ export const cartSlice = createSlice({
             state.totalPrice += action.payload.price
             state.totalCount += 1
         },
-        removeOneItem(state, action) {
+        removeOneItem(state, action: PayloadAction<CartItemType['item']>) {
             const foundObjIndex = state.selectedItems.findIndex((obj) =>
                 isDeepEqual(obj.item, action.payload)
             )
@@ -40,7 +58,10 @@ export const cartSlice = createSlice({
             state.totalPrice -= action.payload.price
             state.totalCount -= 1
         },
-        removeAllItemsOfType(state, action) {
+        removeAllItemsOfType(
+            state,
+            action: PayloadAction<CartItemType['item']>
+        ) {
             const foundObjIndex = state.selectedItems.findIndex((obj) =>
                 isDeepEqual(obj.item, action.payload)
             )
