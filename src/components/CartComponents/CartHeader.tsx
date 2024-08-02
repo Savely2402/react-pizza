@@ -1,6 +1,6 @@
 import React from 'react'
-import { clearCart } from '../redux/slices/cartSlice.ts'
-import { useAppDispatch } from '../hooks/hooks.ts'
+import { clearCart } from '../../redux/slices/cartSlice.ts'
+import { useAppDispatch } from '../../hooks/hooks.ts'
 
 export const CartHeader: React.FC = () => {
     const dispatch = useAppDispatch()

@@ -1,8 +1,8 @@
 import React from 'react'
-import { CartItem } from '../components/CartItem/index.tsx'
+import { CartItem } from '../components/CartComponents/CartItem.tsx'
 import { NotFoundCartBlock } from '../components/NotFoundCartBlock.tsx'
-import { CartBottom } from '../components/CartBottom.tsx'
-import { CartHeader } from '../components/CartHeader.tsx'
+import { CartBottom } from '../components/CartComponents/CartBottom.tsx'
+import { CartHeader } from '../components/CartComponents/CartHeader.tsx'
 import { useAppSelector } from '../hooks/hooks.ts'
 
 export const Cart: React.FC = () => {

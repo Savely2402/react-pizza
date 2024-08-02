@@ -2,16 +2,52 @@ import React from 'react'
 
 import { setSort } from '../redux/slices/filterSlice.ts'
 import { sortList, sortListType } from '../constants/sortList.ts'
-import { useAppDispatch, useAppSelector, useModal } from '../hooks/hooks.ts'
+import { useAppDispatch, useModal } from '../hooks/hooks.ts'
 
 interface SortOrders {
     asc: string
     desc: string
 }
 
-export const Sort: React.FC = () => {
-    const { sort } = useAppSelector((state) => state.filter)
+interface SortProps {
+    sort: {
+        sortName: string
+        sortField: string
+        sortOrder: string
+    }
+}
 
+interface SortPopupProps {
+    sort: SortProps['sort']
+    sortPopupRef: React.RefObject<HTMLDivElement>
+    onClickSort: (SortProps: sortListType) => void
+}
+
+const SortPopup: React.FC<SortPopupProps> = ({
+    sort,
+    sortPopupRef,
+    onClickSort,
+}) => {
+    return (
+        <div className="sort__popup" ref={sortPopupRef}>
+            <ul>
+                {sortList.map((obj, index) => (
+                    <li
+                        key={index}
+                        onClick={() => onClickSort(obj)}
+                        className={
+                            sort.sortName === obj.sortName ? 'active' : ''
+                        }
+                    >
+                        {obj.sortName}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
+export const Sort: React.FC<SortProps> = React.memo(({ sort }) => {
     const sortLabelRef = React.useRef<HTMLSpanElement>(null)
     const sortPopupRef = React.useRef<HTMLDivElement>(null)
 
@@ -66,26 +102,14 @@ export const Sort: React.FC = () => {
                 </span>
             </div>
             {openModal && (
-                <div className="sort__popup" ref={sortPopupRef}>
-                    <ul>
-                        {sortList.map((obj, index) => (
-                            <li
-                                key={index}
-                                onClick={() => onClickSort(obj)}
-                                className={
-                                    sort.sortName === obj.sortName
-                                        ? 'active'
-                                        : ''
-                                }
-                            >
-                                {obj.sortName}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <SortPopup
+                    sort={sort}
+                    sortPopupRef={sortPopupRef}
+                    onClickSort={onClickSort}
+                />
             )}
         </div>
     )
-}
+})
 
 export default Sort

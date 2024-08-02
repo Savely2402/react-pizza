@@ -10,10 +10,9 @@ export interface FetchItemsParams {
     categoryId: number
 }
 
-export const fetchItems = createAsyncThunk(
+export const fetchItems = createAsyncThunk<ItemType[], FetchItemsParams>(
     'items/fetchItems',
-    async (params: FetchItemsParams, thunkAPI) => {
-        console.log(thunkAPI)
+    async (params) => {
         const { sort, searchValue, categoryId } = params
 
         const url = new URL('https://6681539604acc3545a065f15.mockapi.io/items')
@@ -27,7 +26,9 @@ export const fetchItems = createAsyncThunk(
         if (categoryId > 0) {
             url.searchParams.append('category', String(categoryId))
         }
-        const { data } = await axios.get(String(url))
+        const { data } = await axios.get<ItemType[]>(String(url))
+
+        console.log(data)
 
         return data
     }
@@ -72,6 +73,7 @@ export const itemsSlice = createSlice({
         builder.addCase(
             fetchItems.fulfilled,
             (state, action: PayloadAction<ItemType[]>) => {
+                state.error = ''
                 state.items = action.payload
                 state.isLoading = false
             }

@@ -8,16 +8,18 @@ import PizzaBlock from '../components/PizzaBlock/index.tsx'
 import { Pagination } from '../components/Pagination/index.tsx'
 import { usePagination } from '../hooks/usePagination.ts'
 import { useFetchItems } from '../hooks/useFetchItems.ts'
-import { categories } from '../constants/categories.ts'
+
 import { setActivePage } from '../redux/slices/filterSlice.ts'
-import { useDispatch } from 'react-redux'
 import { useParseQueryParams } from '../hooks/useQueryParams.ts'
+import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts'
 
 export const Home = () => {
     const isSearch = React.useRef<boolean>(false)
     const isMounted = React.useRef<boolean>(false)
 
-    const dispatch = useDispatch()
+    const { sort } = useAppSelector((state) => state.filter)
+
+    const dispatch = useAppDispatch()
 
     useParseQueryParams(isSearch, isMounted)
     const [items, isLoading, error] = useFetchItems(isSearch)
@@ -46,8 +48,8 @@ export const Home = () => {
             ) : (
                 <>
                     <div className="content__top">
-                        <Categories categories={categories} />
-                        <Sort />
+                        <Categories />
+                        <Sort sort={sort} />
                     </div>
                     <h2 className="content__title">Все пиццы</h2>
                     <div className="content__items">

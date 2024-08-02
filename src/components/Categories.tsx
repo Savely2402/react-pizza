@@ -2,12 +2,9 @@ import React from 'react'
 
 import { setCategoryId } from '../redux/slices/filterSlice.ts'
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts'
+import { categories } from '../constants/categories.ts'
 
-type CategoriesProps = {
-    categories: string[]
-}
-
-export const Categories: React.FC<CategoriesProps> = ({ categories }) => {
+export const Categories: React.FC = React.memo(() => {
     const categoryId = useAppSelector((state) => state.filter.categoryId)
     const dispatch = useAppDispatch()
 
@@ -30,6 +27,6 @@ export const Categories: React.FC<CategoriesProps> = ({ categories }) => {
             </ul>
         </div>
     )
-}
+})
 
 export default Categories
