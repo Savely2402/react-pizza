@@ -28,8 +28,6 @@ export const fetchItems = createAsyncThunk<ItemType[], FetchItemsParams>(
         }
         const { data } = await axios.get<ItemType[]>(String(url))
 
-        console.log(data)
-
         return data
     }
 )

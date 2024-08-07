@@ -19,17 +19,17 @@ interface SortProps {
 
 interface SortPopupProps {
     sort: SortProps['sort']
-    sortPopupRef: React.RefObject<HTMLDivElement>
+    sortRef: React.RefObject<HTMLDivElement>
     onClickSort: (SortProps: sortListType) => void
 }
 
 const SortPopup: React.FC<SortPopupProps> = ({
     sort,
-    sortPopupRef,
+    sortRef,
     onClickSort,
 }) => {
     return (
-        <div className="sort__popup" ref={sortPopupRef}>
+        <div className="sort__popup" ref={sortRef}>
             <ul>
                 {sortList.map((obj, index) => (
                     <li
@@ -48,10 +48,10 @@ const SortPopup: React.FC<SortPopupProps> = ({
 }
 
 export const Sort: React.FC<SortProps> = React.memo(({ sort }) => {
-    const sortLabelRef = React.useRef<HTMLSpanElement>(null)
     const sortPopupRef = React.useRef<HTMLDivElement>(null)
+    const sortLabelRef = React.useRef<HTMLDivElement>(null)
 
-    const [openModal, setOpenModal] = useModal(sortLabelRef, sortPopupRef)
+    const [openModal, setOpenModal] = useModal([sortPopupRef, sortLabelRef])
 
     const dispatch = useAppDispatch()
 
@@ -92,19 +92,17 @@ export const Sort: React.FC<SortProps> = React.memo(({ sort }) => {
                     <b>Сортировка по:</b>
                 </div>
                 <span
-                    ref={sortLabelRef}
                     className="sort__name"
-                    onClick={(e) => {
-                        setOpenModal(!openModal)
-                    }}
+                    onClick={() => setOpenModal(!openModal)}
+                    ref={sortLabelRef}
                 >
                     {sort.sortName}
                 </span>
             </div>
             {openModal && (
                 <SortPopup
+                    sortRef={sortPopupRef}
                     sort={sort}
-                    sortPopupRef={sortPopupRef}
                     onClickSort={onClickSort}
                 />
             )}

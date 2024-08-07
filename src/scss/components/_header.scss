@@ -43,4 +43,31 @@
             color: #7b7b7b;
         }
     }
+
+    &__login {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 12px;
+        margin-top: 5px;
+
+        outline: none;
+        border: none;
+        background: none;
+
+        :hover {
+            cursor: pointer;
+        }
+
+        .loginText {
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            transition: color 0.15s ease-in-out;
+        }
+
+        .loginText:hover {
+            color: #ff8800;
+        }
+    }
 }

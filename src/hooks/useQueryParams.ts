@@ -11,6 +11,7 @@ export const useQueryParams: UseQueryParams = (isMounted) => {
     const { categoryId, searchValue, activePage, sort } = useAppSelector(
         (state) => state.filter
     )
+
     const navigate = useNavigate()
 
     React.useEffect(() => {

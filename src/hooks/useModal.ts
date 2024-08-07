@@ -1,24 +1,22 @@
 import React from 'react'
 
 type UseModal = (
-    sortLabelRef: React.RefObject<HTMLSpanElement>,
-    sortPopupRef: React.RefObject<HTMLDivElement>
+    modalRefs: React.RefObject<HTMLElement>[]
 ) => [boolean, React.Dispatch<React.SetStateAction<boolean>>]
 
-export const useModal: UseModal = (sortLabelRef, sortPopupRef) => {
+export const useModal: UseModal = (modalRefs) => {
     const [openModal, setOpenModal] = React.useState<boolean>(false)
 
     React.useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            const foundElements = e
-                .composedPath()
-                .filter(
-                    (elem) =>
-                        elem === sortLabelRef.current ||
-                        elem === sortPopupRef.current
-                )
+            const foundElements = modalRefs.some((ref) => {
+                if (ref.current) {
+                    return e.composedPath().includes(ref.current)
+                }
+                return false
+            })
 
-            if (!foundElements.length) {
+            if (!foundElements) {
                 setOpenModal(false)
             }
         }
@@ -26,7 +24,7 @@ export const useModal: UseModal = (sortLabelRef, sortPopupRef) => {
         return () => {
             return window.removeEventListener('click', handleClickOutside)
         }
-    }, [openModal, setOpenModal, sortLabelRef, sortPopupRef])
+    }, [openModal, setOpenModal, modalRefs])
 
     return [openModal, setOpenModal]
 }
