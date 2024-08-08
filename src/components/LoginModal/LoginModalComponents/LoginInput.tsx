@@ -1,13 +1,7 @@
 import React from 'react'
 
 import styles from '../LoginModal.module.scss'
-
-interface LoginInputProps {
-    label: string
-    type: React.HTMLInputTypeAttribute
-    id: string
-    name: string
-}
+import { LoginInputProps } from '../types/LoginModalTypes'
 
 export const LoginInput: React.FC<LoginInputProps> = ({
     label,

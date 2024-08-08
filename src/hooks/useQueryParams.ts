@@ -75,7 +75,7 @@ export const useParseQueryParams: UseParseQueryParams = (
             }
 
             dispatch(setFilters({ ...params, sort }))
-            isSearch.current = true
+            isSearch.current = false
         }
         // eslint-disable-next-line
     }, [])

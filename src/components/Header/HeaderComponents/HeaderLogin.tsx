@@ -1,7 +1,7 @@
 import React from 'react'
-import { useModal } from '../../hooks/useModal.ts'
-import { LoginModal } from '../LoginModal/LoginModal.tsx'
-import loginSvg from '../../assets/img/login.svg'
+import { useModal } from '../../../hooks/useModal.ts'
+import { LoginModal } from '../../LoginModal/LoginModal.tsx'
+import loginSvg from '../../../assets/img/login.svg'
 
 export const HeaderLogin: React.FC = () => {
     const loginModalRef = React.useRef<HTMLDivElement>(null)
@@ -20,7 +20,12 @@ export const HeaderLogin: React.FC = () => {
 
                 <span className="loginText">Вход</span>
             </button>
-            {openModal && <LoginModal loginModalRef={loginModalRef} />}
+            {openModal && (
+                <LoginModal
+                    loginModalRef={loginModalRef}
+                    setOpenModal={setOpenModal}
+                />
+            )}
         </>
     )
 }

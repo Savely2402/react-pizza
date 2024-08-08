@@ -23,6 +23,19 @@
     .loginForm {
         display: flex;
         flex-direction: column;
+        position: relative;
+
+        .crossSvg {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .crossSvg:hover {
+            cursor: pointer;
+        }
 
         &__submit_row {
             display: flex;
@@ -48,6 +61,7 @@
         &__header {
             display: flex;
             align-items: center;
+
             margin-top: 18px;
 
             .delimeter {
@@ -79,6 +93,10 @@
             margin-top: 10px;
             box-shadow: 1px 0px 30px -25px rgba(34, 60, 80, 0.9) inset;
             border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        &__input:focus {
+            border-color: rgb(122, 119, 255);
         }
 
         &__button_submit {

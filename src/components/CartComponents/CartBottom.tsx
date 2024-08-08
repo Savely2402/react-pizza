@@ -1,10 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
-interface CartBottomProps {
-    totalCount: number
-    totalPrice: number
-}
+import { CartBottomProps } from './types/CartComponentsTypes'
 
 export const CartBottom: React.FC<CartBottomProps> = ({
     totalCount,

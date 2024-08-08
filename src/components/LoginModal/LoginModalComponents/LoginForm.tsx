@@ -1,23 +1,17 @@
 import React from 'react'
 
 import styles from '../LoginModal.module.scss'
-import { ModalComponentsState } from '../LoginModal.tsx'
+
 import { LoginInput } from './LoginInput.tsx'
 
-interface LoginFormProps {
-    activeForm: {
-        login: boolean
-        forgot_password: boolean
-    }
-    setActiveForm: React.Dispatch<React.SetStateAction<ModalComponentsState>>
-}
+import { ActiveFormType, LoginFormProps } from '../types/LoginModalTypes.ts'
 
 export const LoginForm: React.FC<LoginFormProps> = ({
     activeForm,
     setActiveForm,
 }) => {
     const onClickForgotPassword = () => {
-        setActiveForm({ ...activeForm, forgot_password: true })
+        setActiveForm(ActiveFormType.FORGOT_PASSWORD)
     }
 
     return (

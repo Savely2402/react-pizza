@@ -1,5 +1,5 @@
 import React from 'react'
-import Search from './Search/index.tsx'
+import Search from '../Search/Search.tsx'
 import { HeaderLogin } from './HeaderComponents/HeaderLogin.tsx'
 import { HeaderCart } from './HeaderComponents/HeaderCart.tsx'
 import { HeaderLogo } from './HeaderComponents/HeaderLogo.tsx'

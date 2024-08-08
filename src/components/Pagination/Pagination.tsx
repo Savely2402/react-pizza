@@ -4,11 +4,7 @@ import styles from './Pagination.module.scss'
 import { usePagination } from '../../hooks/usePagination.ts'
 import { setActivePage } from '../../redux/slices/filterSlice.ts'
 import { useAppDispatch } from '../../hooks/hooks.ts'
-
-interface PaginationProps {
-    items: React.JSX.Element[]
-    limit: number
-}
+import { PaginationProps } from './types/PaginationTypes.ts'
 
 export const Pagination: React.FC<PaginationProps> = ({ items, limit }) => {
     const dispatch = useAppDispatch()

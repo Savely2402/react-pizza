@@ -5,16 +5,7 @@ import {
     removeAllItemsOfType,
     removeOneItem,
 } from '../../redux/slices/cartSlice.ts'
-
-interface CartItemProps {
-    id: number
-    title: string
-    price: number
-    imageUrl: string
-    size: number
-    type: string
-    quantity?: number
-}
+import { CartItemProps } from './types/CartComponentsTypes.ts'
 
 export const CartItem: React.FC<CartItemProps> = ({
     id,

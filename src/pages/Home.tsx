@@ -3,9 +3,9 @@ import React from 'react'
 import Categories from '../components/Categories.tsx'
 import Sort from '../components/Sort.tsx'
 import Skeleton from '../components/PizzaBlock/Skeleton.tsx'
-import PizzaBlock from '../components/PizzaBlock/index.tsx'
+import PizzaBlock from '../components/PizzaBlock/PizzaBlock.tsx'
 
-import { Pagination } from '../components/Pagination/index.tsx'
+import { Pagination } from '../components/Pagination/Pagination.tsx'
 import { usePagination } from '../hooks/usePagination.ts'
 import { useFetchItems } from '../hooks/useFetchItems.ts'
 

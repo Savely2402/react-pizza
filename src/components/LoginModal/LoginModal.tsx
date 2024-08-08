@@ -2,33 +2,60 @@ import React from 'react'
 import { createPortal } from 'react-dom'
 import styles from './LoginModal.module.scss'
 
-import { LoginHeader } from './LoginModalComponents/LoginHeader.tsx'
+import crossSvg from '../../assets/img/cross.svg'
 import { ForgotPasswordForm } from './LoginModalComponents/ForgotPasswordForm.tsx'
-import { LoginTitle } from './LoginModalComponents/LoginTitle.tsx'
 import { LoginForm } from './LoginModalComponents/LoginForm.tsx'
 import { SignUpForm } from './LoginModalComponents/SignupForm.tsx'
+import {
+    ActiveFormType,
+    FormConfigType,
+    LoginModalProps,
+} from './types/LoginModalTypes.ts'
 
-interface LoginModalProps {
-    loginModalRef: React.RefObject<HTMLDivElement>
-}
-
-export interface ModalComponentsState {
-    login: boolean
-    forgot_password: boolean
-}
-
-export const LoginModal: React.FC<LoginModalProps> = ({ loginModalRef }) => {
-    const [activeForm, setActiveForm] = React.useState<ModalComponentsState>({
-        login: true,
-        forgot_password: false,
-    })
+export const LoginModal: React.FC<LoginModalProps> = ({
+    loginModalRef,
+    setOpenModal,
+}) => {
+    const [activeForm, setActiveForm] = React.useState<ActiveFormType>(
+        ActiveFormType.LOGIN
+    )
 
     const toggleActiveForm = () => {
-        setActiveForm({
-            ...activeForm,
-            login: !activeForm.login,
-        })
+        setActiveForm(
+            activeForm === ActiveFormType.LOGIN
+                ? ActiveFormType.SIGNUP
+                : ActiveFormType.LOGIN
+        )
     }
+
+    const onClickCloseModal = () => {
+        setOpenModal(false)
+    }
+
+    const formConfig: Record<ActiveFormType, FormConfigType> = {
+        [ActiveFormType.LOGIN]: {
+            title: 'Вход',
+            body: (
+                <LoginForm
+                    activeForm={activeForm}
+                    setActiveForm={setActiveForm}
+                />
+            ),
+            toggleText: 'Регистрация',
+        },
+        [ActiveFormType.SIGNUP]: {
+            title: 'Регистрация',
+            body: <SignUpForm />,
+            toggleText: 'Вход',
+        },
+        [ActiveFormType.FORGOT_PASSWORD]: {
+            title: 'Восстановление пароля',
+            body: <ForgotPasswordForm />,
+            toggleText: '',
+        },
+    }
+
+    const currentForm = formConfig[activeForm]
 
     return (
         <>
@@ -38,38 +65,38 @@ export const LoginModal: React.FC<LoginModalProps> = ({ loginModalRef }) => {
                         className={`${styles.loginModal__content} ${styles.loginForm}`}
                         ref={loginModalRef}
                     >
-                        {activeForm.forgot_password ? (
-                            <>
-                                <LoginHeader>
-                                    <h2 className={styles.loginForm__title}>
-                                        Восстановление пароля
-                                    </h2>
-                                </LoginHeader>
-                                <div className={styles.loginForm__body}>
-                                    <ForgotPasswordForm />
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <LoginHeader>
-                                    <LoginTitle
-                                        activeForm={activeForm}
-                                        onClick={toggleActiveForm}
-                                    />
-                                </LoginHeader>
+                        <img
+                            onClick={onClickCloseModal}
+                            className={styles.crossSvg}
+                            src={crossSvg}
+                            alt="cross"
+                        />
 
-                                <div className={styles.loginForm__body}>
-                                    {activeForm.login ? (
-                                        <LoginForm
-                                            activeForm={activeForm}
-                                            setActiveForm={setActiveForm}
-                                        />
-                                    ) : (
-                                        <SignUpForm />
-                                    )}
-                                </div>
-                            </>
-                        )}
+                        <div className={styles.loginForm__header}>
+                            <h2 className={styles.loginForm__title}>
+                                {currentForm.title}
+                            </h2>
+
+                            {activeForm !== ActiveFormType.FORGOT_PASSWORD && (
+                                <>
+                                    <div className={styles.delimeter}>/</div>
+
+                                    <button
+                                        className={
+                                            styles.loginForm__button_aside
+                                        }
+                                        onClick={toggleActiveForm}
+                                        type="button"
+                                    >
+                                        {currentForm.toggleText}
+                                    </button>
+                                </>
+                            )}
+                        </div>
+
+                        <div className={styles.loginForm__body}>
+                            {currentForm.body}
+                        </div>
                     </div>
                 </div>,
                 document.body

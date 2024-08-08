@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppSelector } from '../../hooks/hooks.ts'
+import { useAppSelector } from '../../../hooks/hooks.ts'
 import { Link } from 'react-router-dom'
 
 export const HeaderCart: React.FC = React.memo(() => {

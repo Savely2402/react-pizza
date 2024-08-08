@@ -17,11 +17,11 @@ export const useFetchItems: UseFetchItems = (isSearch) => {
 
     React.useEffect(() => {
         const fetchData = async () => {
-            if (!isSearch.current) {
+            if (isSearch.current) {
                 dispatch(fetchItems({ sort, categoryId, searchValue }))
             }
 
-            isSearch.current = false
+            isSearch.current = true
         }
 
         fetchData()
